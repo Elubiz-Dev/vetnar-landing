@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VetNar — Clínica Veterinaria | Ibagué, Colombia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --verde: #1a4a3a; --verde-medio: #2d6b52; --verde-claro: #4a9470;
+      --dorado: #e8c84a; --crema: #f7f4ee; --blanco: #ffffff;
+      --texto: #1a1a1a; --texto-suave: #5a5a5a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--crema); color:var(--texto); overflow-x:hidden; }
+
+    /* NAV */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.2rem 5%;
+      background:rgba(26,74,58,0.97); backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(200,230,192,0.15);
+    }
+    .nav-logo { display:flex; align-items:center; gap:0.7rem; text-decoration:none; }
+    .nav-logo-icon { width:40px; height:40px; background:var(--dorado); border-radius:10px; display:grid; place-items:center; font-size:1.3rem; }
+    .nav-logo-text { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:var(--blanco); letter-spacing:-0.5px; }
+    .nav-logo-text span { color:var(--dorado); }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,0.8); text-decoration:none; font-size:0.9rem; font-weight:500; transition:color 0.2s; cursor:pointer; }
+    .nav-links a:hover { color:var(--dorado); }
+    .nav-cta { background:var(--dorado); color:var(--verde)!important; padding:0.6rem 1.4rem; border-radius:50px; font-weight:600!important; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s!important; }
+    .nav-cta:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(232,200,74,0.4); }
+
+    /* HERO */
+    .hero {
+      min-height:100vh; background:var(--verde);
+      display:grid; grid-template-columns:1fr 1fr;
+      align-items:center; padding:8rem 5% 4rem;
+      position:relative; overflow:hidden;
+    }
+    .hero::before { content:''; position:absolute; top:-100px; right:-100px; width:600px; height:600px; background:radial-gradient(circle,rgba(74,148,112,0.25) 0%,transparent 70%); border-radius:50%; }
+    .hero::after { content:''; position:absolute; bottom:-80px; left:20%; width:400px; height:400px; background:radial-gradient(circle,rgba(232,200,74,0.08) 0%,transparent 70%); border-radius:50%; }
+    .hero-content { position:relative; z-index:2; animation:fadeUp 0.9s ease both; }
+    .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(232,200,74,0.15); border:1px solid rgba(232,200,74,0.3); color:var(--dorado); padding:0.4rem 1rem; border-radius:50px; font-size:0.8rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:1.5rem; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(3rem,5vw,4.5rem); font-weight:900; color:var(--blanco); line-height:1.1; margin-bottom:1.5rem; letter-spacing:-1px; }
+    .hero h1 em { font-style:italic; color:var(--dorado); }
+    .hero-desc { font-size:1.1rem; color:rgba(255,255,255,0.7); line-height:1.7; max-width:480px; margin-bottom:2.5rem; font-weight:300; }
+    .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+    .btn-primary { background:var(--dorado); color:var(--verde); padding:0.9rem 2rem; border-radius:50px; font-weight:700; font-size:0.95rem; text-decoration:none; transition:transform 0.2s,box-shadow 0.2s; display:inline-flex; align-items:center; gap:0.5rem; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(232,200,74,0.4); }
+    .btn-secondary { background:transparent; color:var(--blanco); padding:0.9rem 2rem; border-radius:50px; font-weight:500; font-size:0.95rem; text-decoration:none; border:1px solid rgba(255,255,255,0.3); transition:border-color 0.2s,background 0.2s; display:inline-flex; align-items:center; gap:0.5rem; }
+    .btn-secondary:hover { border-color:rgba(255,255,255,0.7); background:rgba(255,255,255,0.05); }
+    .hero-stats { display:flex; gap:2.5rem; margin-top:3rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1); }
+    .stat-num { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--dorado); }
+    .stat-label { font-size:0.8rem; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.5px; }
+    .hero-visual { position:relative; z-index:2; display:flex; justify-content:center; align-items:center; animation:fadeUp 0.9s 0.2s ease both; }
+    .hero-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:24px; padding:2.5rem; width:340px; backdrop-filter:blur(10px); }
+    .hero-card-icon { font-size:4rem; margin-bottom:1rem; display:block; }
+    .hero-card h3 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--blanco); margin-bottom:0.5rem; }
+    .hero-card p { color:rgba(255,255,255,0.6); font-size:0.9rem; line-height:1.6; margin-bottom:1.5rem; }
+    .hero-card-tag { display:inline-block; background:rgba(232,200,74,0.15); color:var(--dorado); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.78rem; font-weight:600; margin:0.2rem; border:1px solid rgba(232,200,74,0.2); }
+
+    /* SERVICIOS */
+    .servicios { padding:6rem 5%; background:var(--crema); }
+    .section-header { text-align:center; margin-bottom:4rem; }
+    .section-tag { display:inline-block; background:rgba(26,74,58,0.08); color:var(--verde); padding:0.4rem 1rem; border-radius:50px; font-size:0.78rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:1rem; border:1px solid rgba(26,74,58,0.15); }
+    .section-header h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:900; color:var(--verde); letter-spacing:-0.5px; margin-bottom:0.8rem; }
+    .section-header p { color:var(--texto-suave); font-size:1rem; max-width:500px; margin:0 auto; line-height:1.7; }
+    .servicios-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .servicio-card { background:var(--blanco); border-radius:20px; padding:2rem; border:1px solid rgba(0,0,0,0.06); transition:transform 0.3s,box-shadow 0.3s; position:relative; overflow:hidden; }
+    .servicio-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--verde),var(--verde-claro)); transform:scaleX(0); transform-origin:left; transition:transform 0.3s; }
+    .servicio-card:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(26,74,58,0.1); }
+    .servicio-card:hover::before { transform:scaleX(1); }
+    .servicio-icon { font-size:2.5rem; margin-bottom:1rem; display:block; }
+    .servicio-card h3 { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--verde); margin-bottom:0.6rem; font-weight:700; }
+    .servicio-card p { color:var(--texto-suave); font-size:0.88rem; line-height:1.7; }
+
+    /* EQUIPO */
+    .equipo { padding:6rem 5%; background:var(--verde); position:relative; overflow:hidden; }
+    .equipo::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.02) 40px,rgba(255,255,255,0.02) 41px); }
+    .equipo .section-tag { background:rgba(232,200,74,0.15); color:var(--dorado); border-color:rgba(232,200,74,0.2); }
+    .equipo .section-header h2 { color:var(--blanco); }
+    .equipo-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; position:relative; z-index:1; }
+    .vet-card { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:2rem 1.5rem; text-align:center; transition:transform 0.3s,background 0.3s; backdrop-filter:blur(10px); }
+    .vet-card:hover { transform:translateY(-6px); background:rgba(255,255,255,0.12); }
+    .vet-avatar { width:72px; height:72px; background:linear-gradient(135deg,var(--verde-claro),var(--verde-medio)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 1rem; border:3px solid rgba(232,200,74,0.3); }
+    .vet-card h3 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--blanco); margin-bottom:0.3rem; font-weight:700; }
+    .vet-esp { color:var(--dorado); font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.8rem; }
+    .vet-horario { color:rgba(255,255,255,0.5); font-size:0.78rem; display:flex; align-items:center; justify-content:center; gap:0.3rem; }
+
+    /* NOSOTROS */
+    .duenos { padding:6rem 5%; background:var(--crema); }
+    .duenos-inner { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+    .duenos-text h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,2.8rem); font-weight:900; color:var(--verde); line-height:1.2; margin-bottom:1.2rem; letter-spacing:-0.5px; }
+    .duenos-text h2 em { font-style:italic; color:var(--verde-claro); }
+    .duenos-text p { color:var(--texto-suave); line-height:1.8; font-size:0.95rem; margin-bottom:1rem; }
+    .duenos-cards { display:flex; flex-direction:column; gap:1rem; }
+    .dueno-card { background:var(--blanco); border-radius:16px; padding:1.5rem; display:flex; align-items:center; gap:1.2rem; border:1px solid rgba(0,0,0,0.06); transition:transform 0.3s,box-shadow 0.3s; }
+    .dueno-card:hover { transform:translateX(6px); box-shadow:-4px 4px 20px rgba(26,74,58,0.1); }
+    .dueno-avatar { width:64px; height:64px; background:linear-gradient(135deg,var(--verde),var(--verde-claro)); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0; }
+    .dueno-info h4 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--verde); font-weight:700; margin-bottom:0.2rem; }
+    .dueno-info p { color:var(--texto-suave); font-size:0.82rem; margin:0; }
+    .dueno-rol { margin-left:auto; background:rgba(26,74,58,0.08); color:var(--verde); padding:0.3rem 0.8rem; border-radius:20px; font-size:0.75rem; font-weight:700; white-space:nowrap; }
+
+    /* CONTACTO */
+    .contacto { padding:6rem 5%; background:var(--blanco); }
+    .contacto-inner { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .contacto-info h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.6rem); font-weight:900; color:var(--verde); margin-bottom:1rem; letter-spacing:-0.5px; }
+    .contacto-info > p { color:var(--texto-suave); line-height:1.7; margin-bottom:2rem; font-size:0.95rem; }
+    .info-item { display:flex; align-items:flex-start; gap:1rem; margin-bottom:1.2rem; }
+    .info-icon { width:44px; height:44px; background:rgba(26,74,58,0.08); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+    .info-item h4 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--verde-claro); font-weight:700; margin-bottom:0.2rem; }
+    .info-item p { color:var(--texto); font-size:0.9rem; margin:0; line-height:1.5; }
+    .contacto-mapa { background:var(--crema); border-radius:24px; overflow:hidden; border:1px solid rgba(0,0,0,0.06); min-height:340px; display:flex; flex-direction:column; }
+    .mapa-header { background:var(--verde); padding:1.5rem 2rem; display:flex; align-items:center; gap:0.8rem; }
+    .mapa-header h3 { font-family:'Playfair Display',serif; color:var(--blanco); font-size:1.2rem; font-weight:700; }
+    .mapa-body { flex:1; padding:2rem; display:flex; flex-direction:column; justify-content:center; gap:1rem; }
+    .mapa-dato { display:flex; align-items:center; gap:1rem; padding:1rem; background:var(--blanco); border-radius:12px; border:1px solid rgba(0,0,0,0.06); }
+    .mapa-dato-icon { font-size:1.4rem; width:40px; text-align:center; }
+    .mapa-dato-text h4 { font-size:0.78rem; font-weight:700; color:var(--verde-claro); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.2rem; }
+    .mapa-dato-text p { font-size:0.88rem; color:var(--texto); margin:0; }
+
+    /* FOOTER */
+    footer { background:#0f2d22; padding:3rem 5% 2rem; color:rgba(255,255,255,0.5); }
+    .footer-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:2rem; padding-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.08); }
+    .footer-logo { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:var(--blanco); }
+    .footer-logo span { color:var(--dorado); }
+    .footer-links { display:flex; gap:1.5rem; list-style:none; }
+    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.85rem; transition:color 0.2s; cursor:pointer; }
+    .footer-links a:hover { color:var(--dorado); }
+    .footer-admin { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(232,200,74,0.1); border:1px solid rgba(232,200,74,0.2); color:var(--dorado); padding:0.5rem 1.2rem; border-radius:50px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:background 0.2s; }
+    .footer-admin:hover { background:rgba(232,200,74,0.2); }
+    .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; font-size:0.8rem; }
+
+    /* MODAL LOGIN */
+    .modal-overlay {
+      position:fixed; inset:0;
+      background:rgba(10,30,22,0.88);
+      backdrop-filter:blur(10px);
+      z-index:999;
+      display:none; align-items:center; justify-content:center;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal {
+      background:var(--blanco); border-radius:24px; padding:2.5rem;
+      width:100%; max-width:380px; position:relative;
+      animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+      border-top:4px solid var(--verde);
+    }
+    @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+    .modal-close { position:absolute; top:1rem; right:1rem; background:rgba(0,0,0,0.06); border:none; width:32px; height:32px; border-radius:50%; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--texto-suave); transition:background 0.2s; }
+    .modal-close:hover { background:rgba(0,0,0,0.12); }
+    .modal-logo { width:56px; height:56px; background:var(--verde); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin-bottom:1.2rem; }
+    .modal h3 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:var(--verde); margin-bottom:0.3rem; }
+    .modal > p { color:var(--texto-suave); font-size:0.85rem; margin-bottom:1.8rem; line-height:1.5; }
+    .modal-group { margin-bottom:1rem; }
+    .modal-group label { display:block; font-size:0.78rem; font-weight:700; color:var(--texto); text-transform:uppercase; letter-spacing:0.3px; margin-bottom:0.4rem; }
+    .modal-group input { width:100%; padding:0.75rem 1rem; border:1.5px solid rgba(0,0,0,0.1); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.9rem; color:var(--texto); outline:none; transition:border-color 0.2s,box-shadow 0.2s; }
+    .modal-group input:focus { border-color:var(--verde-claro); box-shadow:0 0 0 3px rgba(74,148,112,0.12); }
+    .modal-error { background:#fff0f0; border:1px solid #ffcccc; color:#cc3333; border-radius:8px; padding:0.6rem 0.9rem; font-size:0.82rem; margin-bottom:1rem; display:none; }
+    .modal-error.show { display:block; }
+    .btn-login { width:100%; background:var(--verde); color:var(--blanco); padding:0.9rem; border:none; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; transition:background 0.2s,transform 0.2s; margin-top:0.5rem; }
+    .btn-login:hover { background:var(--verde-medio); transform:translateY(-1px); }
+    .modal-hint { text-align:center; font-size:0.75rem; color:var(--texto-suave); margin-top:1rem; }
+
+    /* ANIMACIONES */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+
+    @media(max-width:768px) {
+      .hero{grid-template-columns:1fr;padding-top:6rem}
+      .hero-visual{display:none}
+      .servicios-grid{grid-template-columns:1fr}
+      .equipo-grid{grid-template-columns:1fr 1fr}
+      .duenos-inner,.contacto-inner{grid-template-columns:1fr}
+      .nav-links{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MODAL LOGIN -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <button class="modal-close" onclick="cerrarLogin()">✕</button>
+      <div class="modal-logo">🐾</div>
+      <h3>Acceso Administrativo</h3>
+      <p>Solo personal autorizado de VetNar. Ingresa tus credenciales para continuar al sistema.</p>
+      <div class="modal-error" id="loginError">⚠️ Usuario o contraseña incorrectos.</div>
+      <div class="modal-group">
+        <label>Usuario</label>
+        <input type="text" id="inputUser" placeholder="admin" onkeydown="if(event.key==='Enter')intentarLogin()" autocomplete="off" />
+      </div>
+      <div class="modal-group">
+        <label>Contraseña</label>
+        <input type="password" id="inputPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')intentarLogin()" />
+      </div>
+      <button class="btn-login" onclick="intentarLogin()">Ingresar al sistema →</button>
+      <p class="modal-hint">🔒 Acceso restringido · VetNar 2026</p>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🐾</div>
+      <span class="nav-logo-text">Vet<span>Nar</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a class="nav-cta" onclick="abrirLogin()">🔐 Acceso Personal</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🌿 Ibagué, Tolima · Desde 2020</div>
+      <h1>Tu mascota<br/>merece lo <em>mejor</em></h1>
+      <p class="hero-desc">En VetNar brindamos atención veterinaria de calidad con amor y compromiso. Cuidamos a tus compañeros como si fueran los nuestros, en el corazón del Tolima.</p>
+      <div class="hero-btns">
+        <a href="#contacto" class="btn-primary">📞 Contáctanos</a>
+        <a href="#servicios" class="btn-secondary">Ver servicios →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">+500</div><div class="stat-label">Mascotas atendidas</div></div>
+        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Veterinarios expertos</div></div>
+        <div class="stat-item"><div class="stat-num">5★</div><div class="stat-label">Calificación promedio</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <span class="hero-card-icon">🐕</span>
+        <h3>Atención integral para tu mascota</h3>
+        <p>Consultas, vacunas, cirugías, control de peso y mucho más con los mejores especialistas de Ibagué.</p>
+        <span class="hero-card-tag">🩺 Consulta General</span>
+        <span class="hero-card-tag">💉 Vacunación</span>
+        <span class="hero-card-tag">🔬 Laboratorio</span>
+        <span class="hero-card-tag">🏥 Cirugía</span>
+        <span class="hero-card-tag">🐱 Felinos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <div class="section-header fade-up">
+      <div class="section-tag">Nuestros Servicios</div>
+      <h2>Todo lo que tu mascota necesita</h2>
+      <p>Contamos con tecnología de punta y profesionales comprometidos con el bienestar animal.</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card fade-up"><span class="servicio-icon">🩺</span><h3>Consulta General</h3><p>Revisión completa del estado de salud de tu mascota con diagnóstico profesional y seguimiento personalizado.</p></div>
+      <div class="servicio-card fade-up"><span class="servicio-icon">💉</span><h3>Vacunación</h3><p>Plan de vacunación completo y actualizado para perros, gatos y otras mascotas según su edad y necesidades.</p></div>
+      <div class="servicio-card fade-up"><span class="servicio-icon">🔬</span><h3>Laboratorio Clínico</h3><p>Análisis de sangre, orina y otros exámenes diagnósticos con resultados rápidos y precisos.</p></div>
+      <div class="servicio-card fade-up"><span class="servicio-icon">🏥</span><h3>Cirugía Veterinaria</h3><p>Procedimientos quirúrgicos con equipos modernos, anestesia segura y recuperación monitoreada.</p></div>
+      <div class="servicio-card fade-up"><span class="servicio-icon">🛁</span><h3>Peluquería y Estética</h3><p>Baño, corte de pelo, corte de uñas y demás cuidados estéticos para que tu mascota luce perfecta.</p></div>
+      <div class="servicio-card fade-up"><span class="servicio-icon">🦷</span><h3>Odontología Veterinaria</h3><p>Limpieza dental, extracción y tratamiento de enfermedades orales para la salud bucal de tu mascota.</p></div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="equipo" id="equipo">
+    <div class="section-header fade-up">
+      <div class="section-tag">Nuestro Equipo</div>
+      <h2>Profesionales que aman lo que hacen</h2>
+      <p style="color:rgba(255,255,255,0.6)">Veterinarios certificados con años de experiencia y dedicación al cuidado animal.</p>
+    </div>
+    <div class="equipo-grid">
+      <div class="vet-card fade-up"><div class="vet-avatar">👩‍⚕️</div><h3>Dra. Paola Sánchez</h3><div class="vet-esp">Medicina General</div><div class="vet-horario">🕐 Lun – Vie</div></div>
+      <div class="vet-card fade-up"><div class="vet-avatar">👨‍⚕️</div><h3>Dr. Julián Castro</h3><div class="vet-esp">Cirugía</div><div class="vet-horario">🕐 Mar – Sáb</div></div>
+      <div class="vet-card fade-up"><div class="vet-avatar">👩‍⚕️</div><h3>Dra. Sofía Herrera</h3><div class="vet-esp">Dermatología</div><div class="vet-horario">🕐 Lun – Jue</div></div>
+      <div class="vet-card fade-up"><div class="vet-avatar">👨‍⚕️</div><h3>Dr. Camilo Vargas</h3><div class="vet-esp">Odontología</div><div class="vet-horario">🕐 Mié – Sáb</div></div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section class="duenos" id="nosotros">
+    <div class="duenos-inner">
+      <div class="duenos-text fade-up">
+        <div class="section-tag">Quiénes somos</div>
+        <h2>Una clínica fundada con <em>pasión</em> por los animales</h2>
+        <p>VetNar nació en Ibagué, Tolima, con la visión de ofrecer atención veterinaria de alta calidad accesible para todas las familias. Creemos que cada mascota merece un cuidado excepcional.</p>
+        <p>Desde nuestra fundación hemos atendido a cientos de familias ibaguereñas, construyendo relaciones de confianza basadas en la transparencia, el amor por los animales y el compromiso con la salud.</p>
+      </div>
+      <div class="duenos-cards fade-up">
+        <div class="dueno-card">
+          <div class="dueno-avatar">👨‍💼</div>
+          <div class="dueno-info"><h4>Elian Navarro</h4><p>Ibagué, Tolima · Fundador y Director General</p></div>
+          <span class="dueno-rol">Co-Fundador</span>
+        </div>
+        <div class="dueno-card">
+          <div class="dueno-avatar">👨‍💼</div>
+          <div class="dueno-info"><h4>Johan Robayo</h4><p>Ibagué, Tolima · Fundador y Director Operativo</p></div>
+          <span class="dueno-rol">Co-Fundador</span>
+        </div>
+        <div style="background:rgba(26,74,58,0.06);border-radius:16px;padding:1.5rem;border:1px dashed rgba(26,74,58,0.15);">
+          <p style="color:var(--texto-suave);font-size:0.88rem;line-height:1.7;font-style:italic;">"Fundamos VetNar con el sueño de que cada mascota en Ibagué tuviera acceso a la mejor atención veterinaria. Hoy ese sueño es una realidad que crece cada día."</p>
+          <p style="color:var(--verde);font-size:0.8rem;font-weight:600;margin-top:0.8rem;">— Elian & Johan, Fundadores</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="contacto-inner">
+      <div class="contacto-info fade-up">
+        <div class="section-tag">Encuéntranos</div>
+        <h2>Visítanos en Ibagué</h2>
+        <p>Estamos ubicados en el corazón de la ciudad. Ven directamente o llámanos para más información.</p>
+        <div class="info-item"><div class="info-icon">📍</div><div><h4>Dirección</h4><p>Cl. 60 #12-224<br/>Ibagué, Tolima, Colombia</p></div></div>
+        <div class="info-item"><div class="info-icon">📞</div><div><h4>Teléfono</h4><p>+57 (8) 261-4500<br/>+57 315 234 5678</p></div></div>
+        <div class="info-item"><div class="info-icon">🕐</div><div><h4>Horario de Atención</h4><p>Lunes a Viernes: 8:00 am – 6:00 pm<br/>Sábados: 8:00 am – 2:00 pm</p></div></div>
+        <div class="info-item"><div class="info-icon">📧</div><div><h4>Correo</h4><p>contacto@vetnar.com.co</p></div></div>
+      </div>
+      <div class="contacto-mapa fade-up">
+        <div class="mapa-header"><span style="font-size:1.4rem">🗺️</span><h3>Información de Ubicación</h3></div>
+        <div class="mapa-body">
+          <div class="mapa-dato"><div class="mapa-dato-icon">🏙️</div><div class="mapa-dato-text"><h4>Ciudad</h4><p>Ibagué, Tolima — Capital Musical de Colombia</p></div></div>
+          <div class="mapa-dato"><div class="mapa-dato-icon">📮</div><div class="mapa-dato-text"><h4>Barrio</h4><p>Cl. 60 #12-224, Ibagué, Tolima</p></div></div>
+          <div class="mapa-dato"><div class="mapa-dato-icon">🚗</div><div class="mapa-dato-text"><h4>Cómo llegar</h4><p>Fácil acceso en transporte público y particular</p></div></div>
+          <div class="mapa-dato"><div class="mapa-dato-icon">🅿️</div><div class="mapa-dato-text"><h4>Parqueadero</h4><p>Parqueadero cubierto dentro del CC y parqueadero al frente de la clínica</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Vet<span>Nar</span> 🐾</div>
+      <ul class="footer-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#equipo">Equipo</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <span class="footer-admin" onclick="abrirLogin()">🔐 Acceso Personal</span>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 VetNar — Clínica Veterinaria · Ibagué, Tolima, Colombia</span>
+      <span>Fundada por Elian Navarro & Johan Robayo</span>
+    </div>
+  </footer>
+
+  <script>
+    const USUARIO = 'admin';
+    const PASSWORD = 'vetnar2026';
+    const RUTA = 'http://localhost/veterinaria/index.php';
+
+    function abrirLogin() {
+      document.getElementById('loginModal').classList.add('open');
+      document.getElementById('loginError').classList.remove('show');
+      document.getElementById('inputUser').value = '';
+      document.getElementById('inputPass').value = '';
+      setTimeout(() => document.getElementById('inputUser').focus(), 100);
+    }
+
+    function cerrarLogin() {
+      document.getElementById('loginModal').classList.remove('open');
+    }
+
+    function intentarLogin() {
+      const user = document.getElementById('inputUser').value.trim();
+      const pass = document.getElementById('inputPass').value;
+      if (user === USUARIO && pass === PASSWORD) {
+        window.location.href = RUTA;
+      } else {
+        document.getElementById('loginError').classList.add('show');
+        document.getElementById('inputPass').value = '';
+        document.getElementById('inputPass').focus();
+      }
+    }
+
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) cerrarLogin();
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
